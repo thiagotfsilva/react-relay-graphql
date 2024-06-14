@@ -32,7 +32,7 @@ export const FormTransaction = () => {
                 <Input
                   id="user"
                   placeholder="Usuário que receberá a transação"
-                  className="w-full border p-2  bg-zinc-300"
+                  className="w-full border p-2 rounded bg-zinc-300"
                 />
               </div>
               <div className="flex flex-col">
@@ -42,7 +42,7 @@ export const FormTransaction = () => {
                 <Input
                   id="value"
                   placeholder="Valor da transação"
-                  className="w-full border p-2  bg-zinc-300"
+                  className="w-full border p-2 rounded bg-zinc-300"
                 />
               </div>
             </div>

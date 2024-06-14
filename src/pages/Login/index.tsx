@@ -34,7 +34,7 @@ export const Login = () => {
                 <Input
                   id="taxId"
                   placeholder="Insira seu cpf ou cnpj"
-                  className="w-full border p-2 bg-zinc-300"
+                  className="w-full border p-2 bg-zinc-300 rounded"
                 />
               </div>
               <div className="flex flex-col">
@@ -44,7 +44,7 @@ export const Login = () => {
                 <Input
                   id="password"
                   placeholder="Insira sua senha"
-                  className="w-full border p-2 bg-zinc-300"
+                  className="w-full border p-2 bg-zinc-300 rounded"
                 />
               </div>
             </div>
