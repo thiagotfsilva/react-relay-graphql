@@ -1,10 +1,4 @@
-import { ReactNode, createContext, useContext } from "react";
-
-interface IUser {
-  name: string;
-  taxId: string;
-  password: string;
-}
+import { ReactNode, createContext } from "react";
 
 interface ChildrenProvider {
   children: ReactNode;
@@ -13,7 +7,7 @@ interface ChildrenProvider {
 interface Auth {
   logout: () => void;
   isAuthenticated: () => boolean;
-  getUser: () => IUser | undefined;
+  getTaxIdUser: () => string | undefined;
 }
 
 export const AuthContext = createContext<Auth>({} as Auth);
@@ -35,16 +29,14 @@ export const AuthProvider = ({ children }: ChildrenProvider) => {
     return false;
   }
 
-  function getUser(): IUser | undefined {
-    const user = localStorage.getItem("user");
-    if (!user) return;
-
-    const obj: IUser = JSON.parse(user);
-    return obj;
+  function getTaxIdUser(): string | undefined {
+    const taxId = localStorage.getItem("taxId");
+    if (!taxId) return undefined;
+    return taxId;
   }
 
   return (
-    <AuthContext.Provider value={{ logout, isAuthenticated, getUser }}>
+    <AuthContext.Provider value={{ logout, isAuthenticated, getTaxIdUser }}>
       {children}
     </AuthContext.Provider>
   );

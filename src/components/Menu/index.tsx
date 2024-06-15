@@ -1,13 +1,13 @@
+import { useAuthContext } from "@/hooks/useAuthContext";
+
 export const Menu = () => {
+  const { logout } = useAuthContext();
   return (
     <div className="flex flex-col h-full justify-around">
-      <div className="">
-        <p className="mb-4 cursor-pointer hover:text-yellow-700">Home</p>
+      <p className="cursor-pointer  hover:text-yellow-700">Transação</p>
 
-        <p className="cursor-pointer  hover:text-yellow-700">Transação</p>
-      </div>
       <div className=" cursor-pointer  hover:text-yellow-700">
-        <p>logout</p>
+        <p onClick={() => logout()}>logout</p>
       </div>
     </div>
   );

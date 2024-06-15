@@ -47,5 +47,4 @@ const TRANSACTION = gql`
     }
   }
 `;
-
 export { CREATE_USER, LOGIN, TRANSACTION };

@@ -43,8 +43,8 @@ export function useLogin() {
         },
       });
 
-      localStorage.setItem("user", response.data.login.user);
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("taxId", response.data.login.user.taxId);
+      localStorage.setItem("token", response.data.login.token);
       navigation("/home");
     } catch (error) {
       console.log(error);
