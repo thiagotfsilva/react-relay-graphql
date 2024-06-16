@@ -6,7 +6,7 @@ type LayoutProps = {
 
 export const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   return (
-    <div className="container h-screen bg-zinc-300 flex items-center justify-center">
+    <div className="w-full h-full bg-zinc-300 flex items-center justify-center">
       {children}
     </div>
   );

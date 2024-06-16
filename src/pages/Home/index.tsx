@@ -2,7 +2,12 @@ import { CardUserAndAccount } from "@/components/CardUserAndAccount";
 import { FormTransaction } from "@/components/FormTransaction";
 import { Menu } from "@/components/Menu";
 import { TransactionCard } from "@/components/TransactionCard";
-import { FIND_ACCOUNT, FIND_USER } from "@/graphql/queries";
+import {
+  FIND_ACCOUNT,
+  FIND_TRANSACTIO_RECEIVER,
+  FIND_TRANSACTIO_SENDER,
+  FIND_USER,
+} from "@/graphql/queries";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
@@ -37,16 +42,36 @@ export const Home = () => {
     error: accountError,
   } = useQuery(FIND_ACCOUNT, {
     variables: { userId: userId },
-    skip: !userId, // Pular esta consulta se userId não estiver disponível
+    skip: !userId,
   });
 
+  const {
+    data: transactionSenderData,
+    loading: transactionSenderLoading,
+    error: transactionSenderError,
+  } = useQuery(FIND_TRANSACTIO_SENDER, {
+    variables: { senderId: userId },
+    skip: !userId,
+  });
+
+  const {
+    data: transactionReceiverData,
+    loading: transactionReceiverLoading,
+    error: transactionReceiverError,
+  } = useQuery(FIND_TRANSACTIO_RECEIVER, {
+    variables: { receiverId: userId },
+    skip: !userId,
+  });
+
+  console.log(transactionReceiverData);
+
   useEffect(() => {
-    if (userError || accountError) {
+    if (userError || accountError || transactionSenderError) {
       console.error("Erro ao buscar dados:", userError || accountError);
     }
   }, [userError, accountError]);
 
-  if (userLoading || accountLoading) {
+  if (userLoading || accountLoading || transactionSenderLoading) {
     return <div>Carregando...</div>;
   }
 
@@ -56,9 +81,11 @@ export const Home = () => {
 
   const balance = accountData?.accountById?.balance;
   const numberAccount = accountData?.accountById?.numberAccount;
+  const transactionsSender = transactionSenderData?.transactionBySender;
+  const transactionsReceiver = transactionReceiverData?.transactionByReceiver;
 
   return (
-    <div className="container h-screen bg-zinc-300">
+    <div className="w-full h-full bg-zinc-300">
       <div className="grid grid-cols-12 h-full text-center">
         <div className="col-span-2 bg-zinc-300 border-r-2">
           <Menu />
@@ -74,8 +101,27 @@ export const Home = () => {
         </div>
         <div className="col-span-3 border-l-2 rounded-sm p-2">
           <h3>Transações</h3>
-          <div>
-            <TransactionCard />
+          <div className="grid grid-cols-1 gap-4">
+            <div>
+              <h4>Enviadas</h4>
+              {transactionsSender?.map((transaction: any) => (
+                <TransactionCard
+                  key={transaction._id}
+                  user={transaction.receiver.name}
+                  value={transaction.value}
+                />
+              ))}
+            </div>
+            <div>
+              <h4>Recebidas</h4>
+              {transactionsReceiver?.map((transaction: any) => (
+                <TransactionCard
+                  key={transaction._id}
+                  user={transaction.sender.name}
+                  value={transaction.value}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

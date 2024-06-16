@@ -3,6 +3,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@apollo/client";
 import { TRANSACTION } from "@/graphql/mutations";
+import {
+  FIND_ACCOUNT,
+  FIND_TRANSACTIO_RECEIVER,
+  FIND_TRANSACTIO_SENDER,
+} from "@/graphql/queries";
 
 type TransactionData = {
   receiver: string;
@@ -10,7 +15,17 @@ type TransactionData = {
 };
 
 export function useTransactionForm(userId: string) {
-  const [CreateTransaction, { loading, error }] = useMutation(TRANSACTION);
+  const [CreateTransaction, { loading, error }] = useMutation(TRANSACTION, {
+    refetchQueries: [
+      { query: FIND_TRANSACTIO_SENDER, variables: { senderId: userId } },
+      {
+        query: FIND_TRANSACTIO_RECEIVER,
+        variables: { receiverId: userId },
+      },
+      { query: FIND_ACCOUNT, variables: { userId: userId } },
+    ],
+    awaitRefetchQueries: true,
+  });
   const transactionFormSchema = yup.object().shape({
     receiver: yup.string().required("Necessário informar um usuário"),
     value: yup.number().required("Necessário informar um valor"),

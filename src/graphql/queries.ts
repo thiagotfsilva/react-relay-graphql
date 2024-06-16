@@ -24,4 +24,35 @@ const FIND_USER = gql`
   }
 `;
 
-export { FIND_ACCOUNT, FIND_USER };
+const FIND_TRANSACTIO_SENDER = gql`
+  query FindSenderTransactions($senderId: ID!) {
+    transactionBySender(senderId: $senderId) {
+      _id
+
+      receiver {
+        name
+      }
+      value
+    }
+  }
+`;
+
+const FIND_TRANSACTIO_RECEIVER = gql`
+  query FindReceiverTransactions($receiverId: ID!) {
+    transactionByReceiver(receiverId: $receiverId) {
+      _id
+      sender {
+        name
+      }
+
+      value
+    }
+  }
+`;
+
+export {
+  FIND_ACCOUNT,
+  FIND_USER,
+  FIND_TRANSACTIO_SENDER,
+  FIND_TRANSACTIO_RECEIVER,
+};

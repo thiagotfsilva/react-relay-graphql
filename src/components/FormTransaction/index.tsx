@@ -37,7 +37,7 @@ export const FormTransaction = ({ userId }: Props) => {
                 </div>
                 <Input
                   id="receiver"
-                  placeholder="Usuário que receberá a transação"
+                  placeholder="O id do usuário que receberá a transação"
                   className="w-full border p-2 rounded bg-zinc-300"
                   {...register("receiver")}
                 />
